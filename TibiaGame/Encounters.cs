@@ -7,9 +7,11 @@ namespace TibiaGame
         public static void FirstEncounter()
         {
             Console.WriteLine(
-                "You kick the door open and grab a metal rod while running towards your captor"
+                "With desperate courage, you burst through the door, your hands finding a rusty iron rod. Your muscles tense as you charge at your unsuspecting captor"
             );
-            Console.WriteLine("He turns around facing you....");
+            Console.WriteLine(
+                "The figure whirls around, revealing its grotesque features in the torchlight..."
+            );
             Console.ReadKey();
             Combat(false, "Orc Warrior", 1, 4);
         }
@@ -17,7 +19,9 @@ namespace TibiaGame
         public static void FightEncounterBasic()
         {
             Console.Clear();
-            Console.WriteLine("You turn the corner and see something in the distance");
+            Console.WriteLine(
+                "The ancient corridor stretches before you, and in the dancing shadows, a menacing silhouette emerges"
+            );
             Console.ReadKey();
             Combat(true, "", 0, 0);
         }
@@ -26,10 +30,14 @@ namespace TibiaGame
         {
             Console.Clear();
             Console.WriteLine(
-                $"The door slowly open in the dark room. You see a tall man with a large had and long beard "
+                $"The massive oak door creaks open, revealing a chamber bathed in ethereal light. Within stands an imposing figure, his wide-brimmed hat casting dark shadows across his face, his silver beard flowing like liquid moonlight"
             );
-            Console.WriteLine("looking at a large and ancient tome. ");
-            Console.WriteLine("You recognize him! It's the might Ferumbras. ");
+            Console.WriteLine(
+                "Before him floats an ancient grimoire, its pages turning by unseen forces."
+            );
+            Console.WriteLine(
+                "Your blood runs cold as recognition dawns - the legendary archmage Ferumbras himself stands before you!"
+            );
             Console.ReadKey();
             Combat(false, "Ferumbras", 4, 2);
         }
@@ -49,11 +57,6 @@ namespace TibiaGame
 
         public static void Combat(bool random, string name, int power, int health)
         {
-            // n = name
-            // p = power
-            // h = health
-            // c = coins
-
             string n = "";
             int p = 0;
             int h = 0;
@@ -72,10 +75,6 @@ namespace TibiaGame
             }
             while (h > 0)
             {
-                //Menu options:
-                //Attack, Defend, Run and Heal
-
-
                 Console.Clear();
                 Console.WriteLine(n);
                 Console.WriteLine($"{p} / {h}");
@@ -90,10 +89,8 @@ namespace TibiaGame
 
                 if (input.ToLower() == "a" || input.ToLower() == "attack")
                 {
-                    //attack
-
                     Console.WriteLine(
-                        $"With great haste you run forward with a sword in your hand. The {n} hits you"
+                        $"Your blade flashes in the dim light as you surge forward with deadly intent. The {n} meets your charge with savage fury"
                     );
 
                     int damage = p - Program.currentPlayer.armorValue;
@@ -104,15 +101,16 @@ namespace TibiaGame
                     int attack =
                         p - rand.Next(0, Program.currentPlayer.weaponValue) + rand.Next(1, 4);
 
-                    Console.WriteLine($"You lose {damage} health and deal {attack} damage");
+                    Console.WriteLine(
+                        $"The fierce exchange leaves you wounded for {damage} health, but your strike deals {attack} damage"
+                    );
                     Program.currentPlayer.health -= damage;
                     h -= attack;
                 }
                 else if (input.ToLower() == "d" || input.ToLower() == "defend")
                 {
-                    //defend
                     Console.WriteLine(
-                        $"As the {n} prepares to attack, you draw your sword and takes a defensive stance"
+                        $"You raise your blade in a defensive stance, carefully watching as the {n} circles you with predatory grace"
                     );
 
                     int damage = (p / 4) - Program.currentPlayer.armorValue;
@@ -122,17 +120,18 @@ namespace TibiaGame
                     }
                     int attack = p - rand.Next(0, Program.currentPlayer.weaponValue) / 2;
 
-                    Console.WriteLine($"You lose {damage} health and deal {attack} damage");
+                    Console.WriteLine(
+                        $"Your cautious strategy results in only {damage} damage taken, while you manage to counter for {attack} damage"
+                    );
                     Program.currentPlayer.health -= damage;
                     h -= attack;
                 }
                 else if (input.ToLower() == "r" || input.ToLower() == "run")
                 {
-                    //run
                     if (rand.Next(0, 2) == 0)
                     {
                         Console.WriteLine(
-                            $"As you run away from {n} it hits you in the back, sending you flying across the room"
+                            $"As you turn to flee, the {n} strikes with lightning speed, its attack sending you crashing against the cold stone walls"
                         );
 
                         int damage = p - Program.currentPlayer.armorValue;
@@ -140,26 +139,28 @@ namespace TibiaGame
                         {
                             damage = 0;
                         }
-                        Console.WriteLine($"You lose {damage} health and you are unable to escape");
+                        Console.WriteLine(
+                            $"The brutal blow deals {damage} damage, and your escape attempt fails"
+                        );
                         Console.ReadKey();
                         Shop.LoadShop(Program.currentPlayer);
                     }
                     else
                     {
-                        Console.WriteLine($"You evade the attack from {n} and manages to escape");
+                        Console.WriteLine(
+                            $"With nimble footwork, you dodge the {n}'s lunging attack and sprint into the darkness beyond"
+                        );
                         Console.ReadKey();
-                        //create a store function
                     }
                 }
                 else if (input.ToLower() == "h" || input.ToLower() == "heal")
                 {
-                    //heal
                     if (Program.currentPlayer.potion == 0)
                     {
                         Console.WriteLine(
-                            "You desperately search your bag for healing potions. But you can't find any."
+                            "Your hands frantically search your potion belt, finding nothing but empty vials."
                         );
-                        Console.WriteLine("DAMN!!");
+                        Console.WriteLine("By the gods, you're out of healing draughts!");
                         int damage = p - Program.currentPlayer.armorValue;
                         if (damage < 0)
                         {
@@ -167,39 +168,41 @@ namespace TibiaGame
                         }
 
                         Console.WriteLine(
-                            $"Suddenly {n} strikes you hard and you lose {damage} health! "
+                            $"The {n} seizes upon your moment of desperation, landing a devastating blow for {damage} damage!"
                         );
                     }
                     else
                     {
                         Console.WriteLine(
-                            "You search your bag a healing potion, and quickly pull out a green flask"
+                            "Your fingers close around a crystal vial filled with shimmering emerald liquid"
                         );
 
                         int potionValue = 5;
-                        Console.WriteLine("You take a big zip. AHHH!");
-                        Console.WriteLine($"You gain {health} health");
+                        Console.WriteLine(
+                            "The healing draught courses through your veins like liquid fire!"
+                        );
+                        Console.WriteLine($"The magical elixir restores {health} health");
                         Program.currentPlayer.health += potionValue;
                         Console.WriteLine(
-                            $"As you were drinking your potion, the {n} strikes you."
+                            $"However, the {n} interrupts your moment of relief with a vicious strike"
                         );
                         int damage = (p / 2) - Program.currentPlayer.armorValue;
                         if (damage < 0)
                         {
                             damage = 0;
                         }
-                        Console.WriteLine($"You lose {damage} health.");
+                        Console.WriteLine(
+                            $"The attack tears through your defenses for {damage} damage"
+                        );
                     }
 
                     Console.ReadKey();
                 }
 
-                //Death
-
                 if (Program.currentPlayer.health <= 0)
                 {
                     Console.WriteLine(
-                        $"Suddenly {n} hits you with a fast and deadly blow. {n} stands victorious growling loud!"
+                        $"The {n}'s final strike comes with terrifying speed. As darkness claims your vision, the last thing you hear is the creature's triumphant roar echoing through the ancient halls"
                     );
                     System.Environment.Exit(0);
                 }
@@ -207,8 +210,10 @@ namespace TibiaGame
             }
             int coins = Program.currentPlayer.GetCoins();
 
-            Console.WriteLine($"After killing {n}, you loot it's body for {coins} gold coins.");
-            Console.WriteLine($"You put the {coins} coins in your purse.");
+            Console.WriteLine(
+                $"As your foe falls, you discover a pouch containing {coins} gleaming gold coins among its possessions."
+            );
+            Console.WriteLine($"The weight of {coins} coins makes your coin purse heavier.");
             Program.currentPlayer.coins += coins;
             Console.ReadKey();
         }
