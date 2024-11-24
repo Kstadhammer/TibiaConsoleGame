@@ -62,11 +62,23 @@ namespace TibiaGame
             );
         }
 
+        //Save and Load functions, used Claude to fix some errors.
+
         public static void GameSave()
         {
-            BinaryFormatter binForm = new BinaryFormatter();
+            currentPlayer.saveID = DateTime.Now.GetHashCode();
+            string jsonString = JsonSerializer.Serialize(currentPlayer);
+            File.WriteAllText("gamesaves/save.json", jsonString);
         }
 
-        public static Player Load() { }
+        public static Player GameLoad()
+        {
+            if (File.Exists("gamesaves/save.json"))
+            {
+                string jsonString = File.ReadAllText("gamesaves/save.json");
+                return JsonSerializer.Deserialize<Player>(jsonString) ?? new Player();
+            }
+            return new Player();
+        }
     }
 }

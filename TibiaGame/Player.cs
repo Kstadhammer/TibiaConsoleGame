@@ -21,6 +21,7 @@ namespace TibiaGame
 
         public string feruHat = "Ferumbras Hat";
         public string name;
+        public int saveID;
         public int coins = 5000;
         public int health = 10;
         public int mana = 5;

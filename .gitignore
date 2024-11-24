@@ -73,3 +73,15 @@ artifacts/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Rider / JetBrains IDE
+.idea/
+*.sln.iml
+.idea.*
+
+# Game-specific files
+gamesaves/
+
+# NuGet
+*.nuget.props
+*.nuget.targets
