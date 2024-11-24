@@ -1,5 +1,4 @@
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.Json;
 
 namespace TibiaGame
@@ -66,19 +65,29 @@ namespace TibiaGame
 
         public static void GameSave()
         {
-            currentPlayer.saveID = DateTime.Now.GetHashCode();
-            string jsonString = JsonSerializer.Serialize(currentPlayer);
-            File.WriteAllText("gamesaves/save.json", jsonString);
+            string path = "saves/" + currentPlayer.saveID.ToString();
+            string json = JsonSerializer.Serialize(currentPlayer);
+            File.WriteAllText(path, json);
         }
 
         public static Player GameLoad()
         {
-            if (File.Exists("gamesaves/save.json"))
+            Console.Clear();
+            Console.WriteLine("Choose a character: ");
+            string[] paths = Directory.GetDirectories("saves");
+            List<Player> players = new List<Player>();
+
+            foreach (string p in paths)
             {
-                string jsonString = File.ReadAllText("gamesaves/save.json");
-                return JsonSerializer.Deserialize<Player>(jsonString) ?? new Player();
+                string json = File.ReadAllText(p);
+                Player player = JsonSerializer.Deserialize<Player>(json);
+                players.Add(player);
             }
-            return new Player();
+            foreach (Player p in players)
+            {
+                Console.WriteLine($"{p.saveID} : {p.name}");
+            }
+            Console.WriteLine("Please enter your player name or player id.");
         }
     }
 }
